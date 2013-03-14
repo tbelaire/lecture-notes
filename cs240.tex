@@ -5,6 +5,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{mathtools}
 \usepackage{pgfplots}
 \usepackage[lined]{algorithm2e}
 \usepackage{hyperref}
@@ -22,13 +23,17 @@
 \setlength{\marginparwidth}{1.5in}
 \setlength{\algomargin}{0.75em}
 
+\DeclarePairedDelimiter{\set}{\lbrace}{\rbrace}
+
+\definecolor{darkish-blue}{RGB}{25,103,185}
+
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
-    citecolor=blue,
-    filecolor=blue,
-    linkcolor=blue,
-    urlcolor=blue
+    citecolor=darkish-blue,
+    filecolor=darkish-blue,
+    linkcolor=darkish-blue,
+    urlcolor=darkish-blue
 }
 \newcommand{\lecture}[1]{\marginpar{{\footnotesize $\leftarrow$ \underline{#1}}}}
 
@@ -236,7 +241,7 @@
 				\underbrace{2n^2}_\text{specific function} \in \underbrace{O(n^2))}_\text{set of functions}
 			\end{align*}
 			
-			The use of the equality operator ($=$) in order notation is not the same as in most other areas of mathematics, since a single element of a set cannot strictly be equal to the set itself (even $a \ne \{a\}$). The $=$ in order notation is not a true equality -- it's just notation. The $\in$ operator is semantically more correct.
+			The use of the equality operator ($=$) in order notation is not the same as in most other areas of mathematics, since a single element of a set cannot strictly be equal to the set itself (even $a \ne \set{a}$). The $=$ in order notation is not a true equality -- it's just notation. The $\in$ operator is semantically more correct.
 		
 		\subsection{Performance of Algorithms}
 			We have made some progression in how we determine the performance of algorithms.
@@ -315,7 +320,7 @@
 		\subsection{Timing Functions}
 			A timing function is a function $T_{\mathcal{A}}$ such that:
 			\begin{align*}
-				T_{\mathcal{A}}: \{ Q \} \to \mathbb{R}^{+}
+				T_{\mathcal{A}}: \set{Q } \to \mathbb{R}^{+}
 			\end{align*}
 			where $\mathbb{R}^{+}$ is the set of positive real numbers.
 			\\ \\
@@ -323,9 +328,9 @@
 			\\ \\
 			We also want to define a general timing function for a particular problem, regardless of algorithm: 
 			\begin{align*}
-				T(n) &= max \{T_{ \mathcal{A}}(Q) \} \\ 
-				T_{avg}(n) &= avg \{ T_{\mathcal{A}}(Q) \} \\ 
-				T_{min}(n) &= min \{ T_{\mathcal{A}}(Q) \} \\
+				T(n) &= max \set{T_{ \mathcal{A}}(Q) } \\ 
+				T_{avg}(n) &= avg \set{T_{\mathcal{A}}(Q) } \\ 
+				T_{min}(n) &= min \set{T_{\mathcal{A}}(Q) } \\
 				\vdots&
 			\end{align*}
 
@@ -392,7 +397,7 @@
 
 			Operations like addition and multiplication are primitive for numbers of a reasonable size. Once numbers get large enough to exceed certain limits, we have to resort to some trickery to perform those operations, which adds additional complexity, making them no longer ``basic'' operations.
 			\\ \\
-			We can be a bit sloppy and use the worst case, then say the actual algorithm is $\le$ what we calculated.
+			We can be a bit sloppy and use the worst case, then say the actual algorithm is $\le$ to what we calculated.
 			\begin{ex} 
 				Analyze the following algorithm. Test 1 ($n$). \\
 				\begin{algorithm}[H]
@@ -467,7 +472,7 @@
 					\hline 2 & -4 & 1 & 3 & -2 & 8 & -1 \\ \hline
 				\end{tabular}
 				\\ \\
-				The running time of this program is $max \bigg\{ \sum_{i = 1}^{j} A[k] \big| 1 \le i \le j \le n \bigg\}$.
+				The running time of this program is $max \set{\sum_{i = 1}^{j} A[k] \big| 1 \le i \le j \le n}$.
 			\end{ex}
 
 			\begin{ex}
@@ -495,7 +500,7 @@
 					&= \Theta(n^3)
 				\end{align*}
 
-				Alternatively, we could use a lazier process to determine that this algorithm is $O(n^3)$, wihch is less precise than saying the algorithm is $\Theta(n^3)$. The lazy way is to say each of the nested loops will run in $\le n$ operations in the worst case, which can be multiplied out to $n^3$.
+				Alternatively, we could use a lazier process to determine that this algorithm is $O(n^3)$, which is less precise than saying the algorithm is $\Theta(n^3)$. The lazy way is to say each of the nested loops will run in $\le n$ operations in the worst case, which can be multiplied out to $n^3$.
 			\end{ex}
 
 		\subsection{Math Review}
@@ -566,7 +571,7 @@
 			\begin{enumerate}
 				\item $f(n) = \Theta(a \cdot f(n))$ for $a > 0$.
 				\item Transitivity. If $f(n) = O(g(n))$ and $g(n) = O(h(n))$, then $f(n) = O(h(n))$.
-				\item $[f(n) + g(n)] = \Theta(\max\{ f(n), g(n) \})$
+				\item $[f(n) + g(n)] = \Theta(\max\set{f(n), g(n) })$
 				\item $a_0 + a_1 x^1 + a_2 x^2 + \ldots + a_n x^n = \Theta(x^n)$, where $a_i$ are constants, $x > 1$, and $a_n > 0$. This is just a common case of (3).
 				\item $n^k = O(a^n)$ for $a > 1$.
 				\item $\log^{k} n = o(n^b)$ for $k > 0$ and $b > 0$ (where $b \in \mathbb{R}$, not necessarily the base of the logarithm).
@@ -659,7 +664,7 @@
 			T_{ms}(n) &= 2 T_{ms}\left( \frac{n}{2} \right) + n \\
 			&= 2 \cdot \frac{n}{2} \cdot \lg \frac{n}{2} + n \\
 			&= n \cdot \lg \frac{n}{2} + n \\
-			&= n \cdot (\lg n - \log 2) + n \text{ by log identity} \\
+			&= n \cdot (\lg n - \lg 2) + n \text{ by log identity} \\
 			&= n(\lg n - 1) + n \\
 			&= n \lg n - n + n \\
 			&= n \lg n
@@ -746,7 +751,7 @@
 						\\ \\
 						Next, we'll look into \textbf{filling holes}. If you delete an element from the tree, you delete the element at the top, but then you have a hole that needs to be filled. But how? We take the last element in the tree (the rightmost element at the bottom level) and swap it into the top position, then we get it to \textbf{boogie down}.
 						\\ \\
-						The process of \textbf{boogieing down} is where an element (in this case, the top element) looks at its children and swaps with a child that has lower priority than itself (if any). It does this recursively. It continues to recurse until the child is of higher priority than its parent, or until you reach a leaf node. Swap places with the child with the highest priority.
+						The process of \textbf{boogieing down} is where an element (in this case, the top element) looks at its children and swaps with a child that has higher priority than itself (if any, where ``higher priority'' differs depending on if it's a min- or max-heap). It does this recursively. It continues to recurse until the child is of higher priority than its parent, or until you reach a leaf node. Swap places with the child with the highest priority.
 						\\ \\
 						Insertion uses the process of \textbf{bubbling up}. We place the new element in the first available spot, which will be in the bottom level. The new element exchanges with their parent if the new element has higher priority than the parent, and that continues as far as needed, until it doesn't swap or until it reaches the top.
 						\\ \\
@@ -769,7 +774,7 @@
 						Here's the pseudocode for the boogie down process: \\
 						\begin{algorithm}[H]
 							\While( [v has at least one child] ){$2v + 1 \le$ last}{
-								u = argmin\{A[2v + 1], A[2v + 2]\}; // argmin returns the array index of the min \\
+								u = argmin$\set{A[2v + 1], A[2v + 2]}$; // argmin returns the array index of the min \\
 								\eIf{$A[u].p < A[v].p$}{
 									swap(u, v)\;
 									v = u\;
@@ -842,7 +847,7 @@
 			\\ \\
 			A heap implemented using an array is called an \textbf{in-place implicit data structure}. You avoid pointers by using trickery in the organization of the data itself.
 		\subsection{Quick Sort}
-			\textbf{Selection}: suppose we want to find the minimum or maximum element in an unsorted array. The easy solution is to scan the array and report the answer in $\Theta(n)$ time. However, if you're asked to find the $k$-th largest element? The na\"ive solution would be to sort the entire array, which would take $\Theta(n \lg n)$ time.
+			\textbf{Selection}: suppose we want to find the minimum or maximum element in an unsorted array. The easy solution is to scan the array and report the answer in $\Theta(n)$ time. However, what if you're asked to find the $k$-th largest element? The na\"ive solution would be to sort the entire array, which would take $\Theta(n \lg n)$ time.
 			\\ \\
 			We can do better. We can find the $k$-th largest element in an array in linear time in the worst case, using a method called quick select.
 
@@ -946,7 +951,7 @@
 			\subsubsection{Quick Sort Algorithm and Analysis}
 				The general algorithm for quick sort is as follows. \\
 				\begin{algorithm}[H]
-					\lIf{n = 0}{\Return}\;
+					\lIf{n = 0}{\Return}
 					p = choose random\_pivot(0 \ldots n - 1)\;
 					i = partition(A, p)\;
 					QS(A[0 \ldots i - 1])\;
@@ -963,7 +968,7 @@
 				\begin{align*}
 					T(n) &= cn + \frac{1}{n}(T(n - 1) + T(1)) + \frac{1}{n}(T(n - 2) + T(2)) + \ldots + \frac{1}{n}(T(1) + T(n - 1)) \\
 					&= \frac{1}{n} \sum_{i = 0}^{n - 1}(T(i) + T(n - i - 1)) + \underbrace{\Theta(n)}_{\text{partition step}} \\
-					&\le \frac{1}{n} \sum_{i = 0}^{n - 1} 2 \max \{T(i), T(n - i - 1) \} + \Theta(n) \\
+					&\le \frac{1}{n} \sum_{i = 0}^{n - 1} 2 \max \set{T(i), T(n - i - 1) } + \Theta(n) \\
 					&= \frac{1}{n} \cdot \frac{1}{2}(T\left(\frac{3i}{4}\right)) + \frac{1}{n} \cdot \frac{1}{2} T(i) + cn
 				\end{align*}
 
@@ -1059,7 +1064,7 @@
 			\subsection{Radix Sort}
 				There are situations where you want to sort larger numbers. For example: you have 20 students, but student IDs are ten digits long. Counting sort would be a terrible application in this case because you'd need a huge array, so we'll use \textbf{radix sort} instead. Radix sort is good when you have a fixed-length key space.
 				\subsection{MSD Radix Sort}
-					Most significant digit radix sort, also known as RSD radix sort, is a sorting algorithm where the elements are sorted into buckets based on their most significant digit first. That is, elements are sorted into buckets (using bucket sort) containing elements starting with 1, elements starting with 2, and so on, up until the bucket with elements starting with 9.
+					Most significant digit radix sort, also known as MSD radix sort, is a sorting algorithm where the elements are sorted into buckets based on their most significant digit first. That is, elements are sorted into buckets (using bucket sort) containing elements starting with 1, elements starting with 2, and so on, up until the bucket with elements starting with 9.
 					\\ \\
 					You can recursively apply bucket sort to complete the sort.
 					\begin{ex}
@@ -1102,7 +1107,7 @@
 					\end{ex}
 					With LSD radix sort, each subsequent application occurs on the entire input in the order of the previous pass of bucket sort.
 					\\ \\
-					The time to sort $d$-digit numbers numbers using LSD is $\Theta(n \cdot d)$.
+					The time to sort $d$-digit numbers using LSD is $\Theta(n \cdot d)$.
 					\\ \\
 					LSD radix sort only works when used in conjunction with a stable sort like counting sort. The reason this works is because at the last step, the first digits are tied. Ties are settled by the order of the next-most significant digit, since counting sort is stable and preserved the order from the previous pass.
 					\begin{ex} Here's another example of LSD radix sort. \\
@@ -1217,7 +1222,7 @@
 
 				If the difference is some other value ($\pm 2$, etc.), then the tree is skewed enough that the tree is no longer an AVL tree. It needs to be re-balanced slightly in order to become an AVL tree again.
 				\\ \\
-				\textbf{Insertion on an AVL tree}: first, do a standard BST insertion. Then, recompute all of the height (balance) expressions. If the expressions are all still $\in \{ -1, 0, 1 \}$, then do nothing. Otherwise, we need to rebalance.
+				\textbf{Insertion on an AVL tree}: first, do a standard BST insertion. Then, recompute all of the height (balance) expressions. If the expressions are all still $\in \set{-1, 0, 1 }$, then do nothing. Otherwise, we need to rebalance.
 
 				\subsubsection{Right Rotation}
 					If the balance of a particular subtree is -2, then a right rotation should be applied to that subtree.
@@ -1270,7 +1275,7 @@
 					\begin{figure}[H]
 						\qroofx=2
 						\qroofy=2
-						\Tree [.z [.y \qroof{A}. [.x \qroof{X}. \qroof{C}. ].x ].y \qroof{D}. ].z
+						\Tree [.z [.y \qroof{A}. [.x \qroof{B}. \qroof{C}. ].x ].y \qroof{D}. ].z
 						\caption{A double-right rotation needs to be applied to this entire tree. \label{figure:drrotationneeded}}
 					\end{figure}
 
@@ -1404,7 +1409,7 @@
 
 			In \ref{figure:typicalmultiwaytree}, there are 3 keys and 4 children. However, to generalize, a multi-way tree with $k$ keys needs $k + 1$ or $k + 2$ children.
 			\\ \\
-			In a binary search tree, we have $O(\log_2 n)$ complexity. In a multi-way tree (with $k$ keys), we have $O(\log_{k + 1})$ complexity. For a 20-way tree, for example, $\log_{20} n \ge \log_2 n$, but the constant will be much smaller for $\log_{20} n$. This smaller constant means we will hit the hard drive fewer times, which is a net win.
+			In a binary search tree, we have $O(\log_2 n)$ complexity. In a multi-way tree (with $k$ keys), we have $O(\log_{k + 1})$ complexity. For a 20-way tree ($\log_{20} n$), the constant will be much smaller. This smaller constant means we will hit the hard drive fewer times, which is a net win.
 			\\ \\
 			CD-ROMs used to take as long to read as music CDs did. They implemented an indexing system using a binary search tree, which was too slow. It was relatively easy to make CD-ROMs quicker (2x, 4x, \ldots) by overclocking the spinning mechanism. However, the queries were not being processed any faster because the head was slow. For music CD players, heads didn't need to be very fast. In fact, heads really haven't improved much since then.
 			\\ \\
@@ -1435,7 +1440,7 @@
 				\begin{enumerate}
 					\item Follow the path down the tree according to key ranges until you find the parent of the leaves.
 					\item Insert there.
-					\item Fix your free, if needed.
+					\item Fix your tree, if needed.
 				\end{enumerate}
 						
 				Let's try inserting two elements. After step 1, we end up with the tree as seen in \ref{figure:23needsfix2insertions}.
@@ -1526,7 +1531,7 @@
 				\item Each node can contain up to $m$ children.
 			\end{itemize}
 
-			\textbf{$B^+$-Trees}:
+			\textbf{$\boldsymbol{B^+}$-Trees}:
 			\begin{itemize}
 				\item The internal nodes only have keys.
 				\item Key-value pairs are present in the leaf nodes only.
@@ -1572,13 +1577,13 @@
 
 		This approach is okay if $n \approx m$, but if $n$ is sufficiently less than $m$, we should use hashing instead.
 		\\ \\
-		We define a hash function $h: \{0, 1, \ldots, m - 1\} \to \{1, 2, \ldots, \Theta(n)\}$. That is, we define $h: U \to 0 \ldots |A| = 0 \ldots m - 1$, where $U$ is the key universe.
+		We define a hash function $h: \set{0, 1, \ldots, m - 1} \to \set{1, 2, \ldots, \Theta(n)}$. That is, we define $h: U \to 0 \ldots |A| = 0 \ldots m - 1$, where $U$ is the key universe.
 		\\ \\
 		Using the hashing method, we use the same code as before except instead of using the $k$-th index of the array, we use the $h(k)$-th index for insertion, searching, and deletion.
 		\\ \\
 		We say there is a \textbf{collision} in a hash function if two different keys $k_1$ and $k_2$ exist such that $k_1 \ne k_2$ but $h(k_1) = h(k_2)$. Even if you have a nice hash function, collisions \emph{will} happen, so we need to deal with them in some way. For example, with the birthday paradox, $\sqrt{m}$ keys have a collision.
 		\\ \\
-		Choosing a good hash function is hard. Let's look for an $h: \{\text{ keys }\} \to \{0, 1, \ldots, m\}$ (where $m$ is the size of the hash table). There are two main approaches. \lecture{February 26, 2013}
+		Choosing a good hash function is hard. Let's look for an $h: \set{\text{ keys }} \to \set{0, 1, \ldots, m}$ (where $m$ is the size of the hash table). There are two main approaches. \lecture{February 26, 2013}
 		\begin{enumerate}
 			\item \textbf{h(k) = k mod m}. We know that mod $m$ behaves a lot nicer if $m$ is prime, so we're interested in choosing a prime $m$ that is large enough to be the size of the table.
 				\\ \\
@@ -1650,7 +1655,7 @@
 				\\ \\
 				The key $k$ now lives in position $h_1(k)$ or $h_1(k) + h_2(k)$. Observe that in general, even if $h_1(k_1) = h_1(k_2)$ (that is, you have a collision), $h_2(k_1) \ne h_2(k_2)$, since they are different hash functions. It's unlikely that you'll have a collision in both the primary and secondary hashes, although it is possible.
 				\\ \\
-				More formally, we define $h_1: \{\text{ set of keys }\} \to \{0, 1, \ldots, m - 1\}$ and $h_2: \{\text{ set of keys }\} \to \{1, \ldots, m - 1\}$. Notice that the definition of $h_2$ excludes zero in the range because $h_2$ is a displacement and we don't want to cause a displacement of zero (since that element is already full).
+				More formally, we define $h_1: \set{\text{ set of keys }} \to \set{0, 1, \ldots, m - 1}$ and $h_2: \set{\text{ set of keys }} \to \set{1, \ldots, m - 1}$. Notice that the definition of $h_2$ excludes zero in the range because $h_2$ is a displacement and we don't want to cause a displacement of zero (since that element is already full).
 				\\ \\
 				What happens if the secondary ($h_1(k) + h_2(k)$-th position) is already occupied as well? We continue to add $h_2(k)$ until an empty position is found. Searching works the same way \textendash{} you keep adding $h_2$ until you find an empty element.
 				\\ \\
@@ -1669,6 +1674,8 @@
 				\end{center}
 
 				Notice that a miss on a load factor of $\frac{9}{10}$ was improved from 55.5 to 5.5 by using double hashing (a 10x increase in performance!).
+				\\ \\
+				You can visualize double hashing with \href{http://research.cs.vt.edu/AVresearch/hashing/double.php}{this double hashing applet from Virginia Tech}.
 
 		\subsection{Hashing Applications}
         Back in the day, Apple had a Pascal compiler that took an hour to compile programs. Another company (Borland) made a compiler that could do the same job in just one and a half minutes. They achieved that by using hashing for all identifiers/tokens, while Apple used a straight-line table.
@@ -1680,6 +1687,313 @@
 		\subsection{Cuckoo Hashing}
 			Cuckoo hashing is a different way of handling the insertion of a second element with the same hash key. The first element (that's already in the hash table) is the one that gets moved by calculating its $h_2$ displacement value. The latest element to be inserted will always be in the $h_1$-th position for that hash key.
 			\\ \\
-			More on this next time.
+			\lecture{March 5, 2013}
+			With cuckoo hashing, we have two hash functions $h_1$ and $h_2$, but this time $h_2$ is a target location (not a displacement as was the case in double hashing).
+			\\ \\
+			The newly-inserted element will always end up in $h_1(k)$, kicking out any element if necessary. The element that was kicked out will need to be relocated to $h_1(k)$ or $h_2(k)$, whichever is not the current position. Note that when this element gets relocated it may kick another element out of its new position, so a chain of relocations may be necessary.
+			\\ \\
+			The pseudocode for inserting into a cuckoo hash is as follows, cuckoo-insert($T$, $x$) (where $T$ is a hash table and $x$ is the item to insert): \\
+			\begin{algorithm}[H]
+				y = x\;
+				i = $h_1$(x.key)\;
+				\For{at most $n$ times}{
+					swap(y, T[i])\;
+					\lIf{$y$ is empty}{\Return ``success''}
+					\lIf{$i$ = $h_1$(y.key)}{i = $h_2$(y.key)}
+					\lElse{i = $h_1$(y.key)}
+				}
+				\Return{``failure''}
+			\end{algorithm}
 
+			$h_2(k)$ can now take the value zero because it is an alternate location to try \textendash{} not a displacement.
+			\\ \\
+			Searching requires that you check both $h_1(k)$ and $h_2(k)$, which is better than linear probing and double hashing. Insertions will take longer than other methods, however, due to the possibility of multiple relocations being necessary.
+
+			\begin{center}
+				\begin{tabular}{|c|c|c|c|}
+					\hline
+					& search & insert & delete \\ \hline
+					Linear Probing & $\Theta \left( \frac{1}{(1 - \alpha)^2} \right)$ & $\Theta \left( \frac{1}{(1 - \alpha)^2} \right)$ & $\Theta \left( \frac{1}{1 - \alpha} \right)$ \\ \hline
+					Double Hashing & $\Theta \left( \frac{1}{1 - \alpha} \right)$ & $\Theta \left( \frac{1}{1 - \alpha} \right)$ & $\Theta \left( \frac{1}{\alpha} \lg \left( \frac{1}{1 - \alpha} \right) \right)$ \\ \hline
+					Cuckoo Hashing & $\Theta \left( 1 \right)$ & $\Theta \left( \frac{\alpha}{(1 - 2 \alpha)^2} \right)$ & $\Theta \left( 1 \right)$ \\ \hline
+				\end{tabular}
+			\end{center}
+
+			So, which hashing method should you use? It depends. If you do lots of searches, use cuckoo hashing. Otherwise, if you care more about insertions, use one of the other methods.
+			\\ \\
+			One of the disadvantages of cuckoo hashing is it requires that $\alpha < \frac{1}{2}$.
+
+		\subsection{Hashing in External Memory}
+			Cuckoo hashing would be bad in terms of external memory usage because we would be accessing many different sectors for all operations. Like before, we want to use the entire sector. Researchers suggested \textbf{extendible hashing}, which is similar to a B-tree. It's a similar idea to radix sort, where we use bits to split the data into tables.
+			\\ \\
+			The size of a directory is a power of 2. We'll use the most significant bit to choose the appropriate entry in the directory. Let's say we have:
+			\begin{align*}
+				a &= h(k_1) = 001010 \\
+				b &= h(k_2) = 101100
+			\end{align*}
+
+			Our directory would be of size $d = 2$, with each element containing just a pointer. The hash table will be of size $2^d$, where $d$ is the order of the directory.
+			\\ \\
+			The formula for the most-significant digit is:
+			\begin{align*}
+				\left \lfloor \frac{h(k)}{2^{L - d}} \right \rfloor
+			\end{align*}
+
+			When the table is full, we split it in two, just like a B-tree. We only create the tables as needed, as a space-saving technique. You may be interested in this \href{http://underpop.free.fr/j/java/algorithims-in-java-1-4/images/16fig13.gif}{visualization of extendible hashing}.
+			\\ \\
+			As we split tables, we use a technique similar to radix sort, examining the most-significant digits to determine which table to go into.
+			\\ \\
+			To determine the size of a particular hard drive's sectors, you could write one byte, two bytes, and so on. When the $(n + 1)$-th byte takes longer than the $n$-th byte to write, you know you've gone over the boundary of a sector.
+			\\ \\
+			Doubling a directory is fast if you do it in main memory, otherwise it can be quite slow.
+			\\ \\
+			The pseudocode for insertion with extendible hashing is as follows. \\
+			\begin{algorithm}[H]
+				search for $h(k)$ to find a proper block $B$ for insertion\;
+				\uIf{B has space $(n_B < S)$}{
+					insert $(k, v)$ there\;
+				}
+				\uElseIf{the block is full and $k_B < d$}{
+					// perform block split \\
+					split $B$ into $B_0$ and $B_1$\;
+					\uIf{$h(k) \mod 2^{L-k_B} < 2^{L-k_B-1}$}{
+						$k$ goes in $B_0$\;
+					}
+					\Else{$k$ goes in $B_1$}
+					set local depth in $B_0$ and $B_1$ to $k_B + 1$\;
+					update references in the directory\;
+				}
+				\ElseIf{the block is full and $k_B = d$}{
+					// perform a directory grow \\
+					double the size of the directory ($d = d + 1$)\;
+					update references accordingly\;
+					split block $B$ (which is now possible)\;
+				}
+			\end{algorithm}
+
+			The pseudocode for deletion with extendible hashing is as follows. \\
+			\begin{algorithm}[H]
+				search for block $B$ and remove $k$ from it\;
+				\If{$n_B$ is too small}{perform block merge}
+				\If{every block $B$ has local depth $k_B \le d - 1$}{perform a directory shrink}
+			\end{algorithm}
+
+			The cost of insertion and deletion is $\Theta(S)$ without a directory grow or shrink (which is rare). With a directory grow/shrink, it costs $\Theta(2^d)$. 1 or 2 disk accesses occur, depending on whether there is a block split/merge or not.
+			\\ \\
+			Each block is expected to be < 69\% full. This constraint is better for cuckoo hashing.
+	
+	\section{Tricks of the Trade}
+		We'll now discuss some tricks of the trade \textendash{} useful tricks that aren't discussed in all textbooks.
+
+		\subsection{Interpolation Search}
+			Interpolation search is an improvement over binary search. When you're looking for a name in the yellow pages, if you're looking for a name that starts with `Z', you'll start looking near the end of the phonebook \textendash{} not in the middle. Interpolation applies this idea. It guesses the location of the key given the numberical range of the array.
+			\\ \\
+			Given a sorted array of items (not necessarily numbers, as long as the items are sortable) in positions $A[l \ldots r]$, we try the position in the middle, $\frac{l + r}{2}$. Then: \\
+			\begin{algorithm}[H]
+				\uIf{$A \left[ \frac{l + r}{2} \right]$ < search key}{
+					BinarySearch $\left(A \left[ \frac{l + r}{2} \ldots r \right] \right)$\;
+				}
+				\uElseIf{$A \left[ \frac{l + r}{2} \right]$ > search key}{
+					BinarySearch $\left(A \left[ l \ldots \frac{l + r}{2} \right] \right)$\;
+				}
+				\Else{found item}
+			\end{algorithm}
+
+			We will check the index:
+			\begin{align*}
+				\left \lfloor \frac{k - A[l]}{\frac{A[r] - A[l]}{r - l}} \right \rfloor
+			\end{align*}
+
+			The numerator of this index is the gap between the key $k$ and the first key $A[l]$. The denominator contains the average jump from key to key (the expected $\Delta$ between two consecutive keys in the array).
+			\\ \\
+			This assumes the keys are somewhat uniform. We can use this estimate to jump between two keys within the given range.
+			\\ \\
+			In practice, this works really well. If keys are uniformly distributed, interpolation search finds the key in $O(\lg \lg n)$ expected time. In the worst case, it's worse than binary search.
+			\\ \\
+			Greek researcher Tsakalidis studied how much worse interpolation search would perform if the keys were not uniformly distributed. Much to his surprise, he discovered that if the keys are not uniformly distributed, but instead they were \emph{realistically} distributed, he got $O(1)$ complexity consistently. 
+			\\ \\
+			\lecture{March 7, 2013} An example of a worst case search is if you perform search(9) on this data: 
+			\begin{center}
+				\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+					\hline
+					1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 100,000,000 \\ \hline
+				\end{tabular}
+			\end{center}
+			This is a worst case search because it would check 1, 2, 3, \ldots, in order, because it expects there to be a jump of 10,000,000 between elements ($\frac{100,000,000}{10} = 10,000,000$). It would take $\Theta(n)$ time. This is similar to having a phone book full of `A' names and a single 'Z' name, and you're searching for a name that starts with an `A'.
+			\\ \\
+			If instead, the last key in that data was 10, we would've guessed 9 as being to the left of 10 immediately, since $\frac{10}{10} = 1$ and $10 - 1 = 9$.
+			\\ \\
+			Note that computing the expected position is expensive, because division is typically fairly expensive. Additions are much faster.
+
+		\subsection{Exiting Recursion Early}
+			There's no point in performing interpolation search on an array of four elements. The same goes for quick sorting small arrays. Instead, you should just walk the array. In other words, when implementing algorithms like these, your base case need not be the smallest possible base case.
+			\\ \\
+			For quick sort, you should quit recursing when $n = 17$, and instead use insertion sort. Researchers have discovered that when $n \le 17$, it is more beneficial to stop recursing and use a different method. The alternate method may not be as efficient when $n$ is large, but avoiding needless recursion is worth it.
+
+		\subsection{Gallop Search}
+			If you wanted to determine how high you could jump off a building before dying, you could get a grad student to jump off the first floor, then the second floor, and so on, until he or she dies. You'd have just one casualty, but it's slow. It's take $\Theta(n)$ time.
+			\\ \\
+			Instead, let's use a method like binary search but starting at the left. For example, you'd get your grad student to jump off $F_1$, then $F_2$, then $F_4$, then $F_8$, and so on, until you find your range of [fatal, not fatal]. After that, you can perform binary search on that range. You'll have more casualties, but it'll be more efficient in terms of complexity.
+			\\ \\
+			This is called \textbf{gallop search}.
+			\\ \\
+			Here's the pseudocode for gallop search, which takes an ordered array $A$ and a key $k$: \\
+			\begin{algorithm}[H]
+				i = 0\;
+				\While{i < size(A) and k > A[i]}{
+					i = 2i + 1\;
+				}
+				\Return{BinarySearch(A$\left[ \left \lceil \frac{i}{2} \right \rceil, min(i, size(A) - 1) \right], k)$;}
+			\end{algorithm}
+
+
+			Google uses an algorithm like this to rank pages that contain multiple words. For each search term, Google has ranked all pages on the Internet for that term (this is a simplification of their actual algorithm). When you do a search for two words, they cross-reference these lists and find the pages that are the highest ranked among the two search terms. We essentially want to find the intersection of these lists.
+			\\ \\
+			If you were to search for a misspelled word in addition to an actual word, the page IDs in the misspelled word's list will likely be very large (lowly ranked pages, which is intuitive because it was a misspelling). The na\"ive algorithm would check the valid word's list one by one to look for matches with the invalid word's rankings. The better algorithm is to use gallop search to locate the numbers from the misspelled word's list.
+			\\ \\
+			Gallop search is also useful when you don't know the endpoint of your data source, such as in the case of data streams, a huge file, etc.
+			\\ \\
+			Gallop search takes $\lg n$ time for the double steps, and $\lg \left( \frac{n}{2} \right)$ time for the binary search step in the worst case. So, gallop search runs in time:
+			\begin{align*}
+				\lg n + \lg \frac{n}{2} = \lg n + \lg n - \lg 2 = 2 \lg n - 1 \le 2 \lg n
+			\end{align*}
+
+			So, gallop search runs in $\Theta(\lg n)$ time, but it runs twice as slow as binary search in the worst case. What would happen if we replaced the binary search call with another call to gallop search?
+			\begin{align*}
+				T(n) &= \lg n + T \left( \frac{n}{2} \right) \\
+				&= \lg n + \lg \frac{n}{2} + T \left( \frac{n}{4} \right) \\
+				&= \lg n + \lg \frac{n}{2} + \lg \frac{n}{4} + T \left( \frac{n}{8} \right) \\
+				&= \sum_{i = 1}^{\lg n} i \\
+				&= \lg^2 n
+			\end{align*}
+
+			Clearly, you don't want to replace the binary search call in gallop search with another call to gallop search. If you recursive with gallop search, you'll get $\lg^2 n$ complexity, which is worse than with the binary search call.
+			\\ \\
+			This is called an \textbf{adaptive algorithm}. If the element we're looking for is nearby, it'll take $\Theta(\lg n)$ time, otherwise it'll take longer. Adaptive algorithms are sometimes referred to as polynomial parameterized algorithms or breaking distance.
+		\subsection{Self-Organizing Lists}
+			If you look at Alejandro's desk, there are papers all over the place. It's a mess. But a paper he read recently would be on or near the top of the pile. Similarly, we pack away our swimsuits for the winter and we pack away our winter coats for the summer, because we won't be needing them.
+			\\ \\
+			We could do something similar. Things we use frequently or have used recently should be placed in a more convenient place. We'll sort items by the frequency of access.
+			\\ \\
+			You could use an unordered linked list for this, with the most frequently used items at the front of the linked list. That's just one implementation strategy.
+			\\ \\
+			What happens when the frequencies of items change? For example, the frequency of midterm access by Alejandro was high last week, but will radically decrease after today. The user should have a way of indicating a change of frequency. There are two key strategies to achieve this:
+			\begin{itemize}
+				\item \textbf{Move-to-front (MTF)}: as an item is accessed, move it to the front of the list (after a successful search).
+				\item \textbf{Transpose}: swap the accessed item with the item that is immediately preceding it. This is a more conservative approach.
+			\end{itemize}
+
+			Both of these approaches can be implemented using an array or a linked list.
+			\\ \\
+			In the worst case, transpose can be very bad. The worst case occurs when you keep swapping and accessing elements that are adjacent to each other. After many accesses, no progress has been made on changing the frequency of those items because they were just swapping with each other continuously.
+			\\ \\
+			However, with move-to-front, if we use a rare item, it still gets put at the very front of the list, even if we won't need it again any time soon. It interferes with the other frequencies for a little while until it eventually makes its way further down the list.
+			\\ \\
+			Move-to-front is no worse than twice as expensive as the best possible order. That's pretty great when you take into account how simplistic the MTF algorithm is. This method is used a lot for caching. It could also be implemented as a hash table with chaining, where each chain uses the MTF technique.
+
+		\subsection{Skip Lists}
+			Skip lists are a type of generalized binary tree, that provide a much better (and easy) implementation of a binary tree. 
+			\\ \\
+			You start with a sorted linked list. Sorted arrays are good because you can binary search them (you know their length and have arbitrary access to elements), but they're bad because inserting requires shifting of elements, which is expensive.
+			\\ \\
+			Linked lists make insertions easy, but we cannot binary search them. So, we make another linked list in a level above, and this linked list contains just some of the elements, which will act as shortcuts. We make more and more layers of these shortcuts, each level up containing larger and larger jumps, to further optimize searching.
+			\\ \\
+			If you insert in the bottom layer, the shortcuts still work and don't need to be changed \textendash{} the shortcut just becomes a bit longer. If the shortcut becomes too large, simply break the shortcut into two. \lecture{March 12, 2013}
+			\\ \\
+			To search in a skip list, you start at the top level and traverse from left to right until you overshoot, then you go back one shortcut and go down into a deeper level. Continue to do this recursively until you reach the bottom level / find the element you're looking for. We say an element has a \textbf{tower} on top of it if it has shortcuts sitting on levels above.
+			\\ \\
+			The pseudocode for searching in a skip list is as follows (where $L$ is the skip list and $k$ is a key). \\ \\
+			\begin{algorithm}[H]
+				p = topmost left position of $L$\;
+				S = stack of positions, initially containing $p$\;
+				\While{below(p) $\ne$ null}{
+					p = below(p)\;
+					\While{key(after(p)) < k}{
+						p = after(p)\;
+					}
+					push $p$ onto $S$\;
+				}
+				\Return{S}
+			\end{algorithm}
+
+
+			We ideally want the shortcuts to be jumps that increase by a power of 2 for each higher level.
+			\\ \\
+			How do we know when to create new shortcuts as new elements are being inserted? You could do some ``fancy bookkeeping'', or you could take a much simpler approach: toss a coin. On average, every two elements will have a tower. No bookkeeping is necessary \textendash{} just believe in the probabilities!
+			\\ \\
+			On the expectation, you'll be able to search in $O(\lg n)$ steps.
+			\\ \\
+			To insert into a skip list, you'll first need to find the position with skip-search, and then you'll toss a coin several times to determine how high the tower will be for that element. You'll continue to toss a coin until you get tails. The number of heads tossed will be the height of the tower.
+			\\ \\
+			To actually implement insertion, we have to remember (in a stack) the path we took to reach the lower level, in order to hook up towers as necessary.
+			\\ \\
+			We always want the top level to only contain the $- \infty$ and $+ \infty$ shortcuts. If we add a shortcut to the top level through our coin trickery, you must create a new top level containing only $\pm \infty$ shortcuts. This ensures that it remains possible to jump to the end of the list in one operation.
+			\\ \\
+			Similarly, if a deletion causes you to have two top levels containing only $\pm \infty$ shortcuts, you should remove one of those levels to eliminate the unnecessary redundancy.
+			\\ \\
+			When performing a search for an element $k$, it's often more beneficial to find the predecessor of $k$ (which can be denoted $k - \epsilon$) instead. This allows us to slice (delete) the $k$-th element while being able to update the pointers on both sides of $k$ accordingly.
+			\\ \\
+			In the expected case, we'll use $\Theta(n)$ space, because we'll use $n + 2$ elements at the lowest level (level 0), $\frac{n}{2} + 2$ elements at level 1, $\frac{n}{4} + 2$ at level 2, and so on. According to Zeno's identity, this means we'll use $2n + \lg n = \Theta(n)$ space.
+			\\ \\
+			The expected height is $\Theta(\lg n)$, but at most it'll be $3 \lg n$ with probability over $1 - \frac{1}{n^2}$. If your height ever exceeds $3 \lg n$, it's likely that your coin is broken!
+			\\ \\
+			The expected time for the insert, search, and delete operations is $\Theta(\lg n)$.
+			\\ \\
+			Skip lists are used a lot in practice because they have a simplistic implementation. Implement a skip list if you're okay with the expected case, and don't have to worry about the worst case.
+
+	\section{Eras of Computing}
+		We've gone through several eras of computing since the 1940s.
+		\subsection{World War II (1940-1955)}
+			Cryptography was one of the main uses for computing at this time. Computers were also used for numerical analysis, specifically for calculating trajectories and for developing the atomic bombs.
+			\\ \\
+			IBM claimed only five computers were needed in the world at this time, because you only really needed them if you were doing cryptography work or if you wanted to bomb a country.
+			\\ \\
+			At this point in time, computing was mostly about numbers.
+
+		\subsection{Databases (1955-1970)}
+			Databases were the next big thing. Suddenly, companies discovered they could be more productive using electronic database systems rather than ancient paper filing and sorting methods.
+			\\ \\
+			Every company wanted a database, which increased the market for computers somewhat significantly.
+			\\ \\
+			At this point in time, computing was mostly concerned with structured data.
+
+		\subsection{Wang Word Processor (1970-1990)}
+			Word processors were introduced around 1970. The Wang word processor was popular at the time.
+			\\ \\
+			Even smaller companies now wanted computers. Word processors greatly increased productivity over the old typewriting method, especially when it came to editing. If you made a mistake with a typewriter, you'd have to re-type the entire page.
+			\\ \\
+			At this point in time, computing was all about text.
+		
+		\subsection{Internet (1990-2005)}
+			The Internet was the next big thing. The web was popularized, and it provided communication methods like never before.
+			\\ \\
+			Companies adopted the Internet because it had email. If the Internet didn't have email, and instead just had distractions, companies would not have adopted it and it would be only at homes (similar to how cable TV is only typically available at homes).
+			\\ \\
+			At this point in time, computing was about larger amounts of text.
+		
+		\subsection{Consumers of Data \& Statistical Analysis (Current)}
+			Consumer devices have been popularized, such as mobile phones (iPhone) and tablets (iPad). Consumers are consuming digital data as part of their daily lives.
+			\\ \\
+			Statistical analysis is about looking for trends. Machine learning also stems out of statistical analysis. For example: ads on Facebook are targeted to you specifically based on your profile and its history, based on statistical analysis.
+	
+	\section{Multi-Dimensional Data}
+		In today's world, we want to perform searching across multiple dimensions. For example, we may want to find all employees who make between \$75,000 and \$200,000 and have been at the company for less than 10 years. Or, we may want to search for a computer based on a particular set of specs. If we were Yahoo! executive Marissa Mayer, we may want to determine which employees are unproductive and highly paid, in order to come to the conclusion that most of those people work from home.
+		\\ \\
+		Each attribute of each of these searches is a dimension. We can use the power of mathematics to our advantage here, to find neighbouring elements in $d$-dimensional space, for instance.
+		
+		\subsection{Range Searches}
+			We can use a simple binary search tree to search for a range. We search for the lower bound element or its predecessor and the upper bound element or its successor. We then return everything between the two, and maybe part of the path that was followed (depending on which direction you followed at each step in the path). In some cases, we may need to ``barf out the entire tree.'' AVL trees and B-trees could be modified in a similar way to achieve the same result.
+			\\ \\
+			In terms of performance, it would take $O(\lg n)$ steps for the lower bound search, $O(\lg n)$ steps for the upper bound search, no outside nodes, and $O(k)$ for the inside nodes, where $k$ is the number of reported items. The overall running time is $O(\lg n + k)$. That means this query will take longer if it has to return more data.
+
+		\subsection{2-Dimensional Range Search}
+			We'll use \textbf{quadtrees} to perform two-dimensional range searches. Each element is a coordinate $(x_i, y_i)$.
+			\\ \\
+			We can illustrate a quadtree by plotting each coordinate, drawing a bounding box around it, and splitting the box into four equal quadrants. The four quadrants are then each split into 4 recursively until each quadrant contains only one point.
+			\\ \\
+			To search, you continue to recurse on the portions that intersect your search window.
+			\\ \\
+			A quadtree's size is not in proportion to the number of keys. It is instead proportional to the closeness (distribution) of the data, because if the elements are very close to one another, more quadrant splits will need to occur.
+			\\ \\
+			You may be interested in \href{http://www.cs.utah.edu/~croberts/courses/cs7962/project/}{this quadtree Java applet from the University of Utah}, which is useful for visualizing how quadtree splits work.
 \end{document}
